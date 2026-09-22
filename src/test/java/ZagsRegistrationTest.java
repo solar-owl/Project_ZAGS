@@ -1,70 +1,200 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import driver.DriverSingleton;
+import elements.ApplicationRow;
+import model.*;
 import org.testng.Assert;
-
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import pages.*;
 
 public class ZagsRegistrationTest {
-    public static void main(){
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
 
-        String username = "user";
-        String password = "senlatest";
-        String url = "https://" + username + ":" + password + "@regoffice.senla.eu";
+    private static final MarriageApplication MARRIAGE_APPLICATION = new MarriageApplication(
+            new Applicant("Холланд", "Том", "Иванович", "85553535", "85553535", "Москва"),
+            new Citizen("Холланд", "Том", "Иванович", "01.06.1996", "85553535", "Муж", "Москва"),
+            new MarriageDetails("05.08.2026", "Холланд", "Коулман", "Зендея", "Ивановна", "01.09.1996", "85553535")
+    );
 
-        driver.get(url);
-        driver.manage().window().maximize();
-        driver.findElement(By.xpath("//button[contains(., 'Войти как пользователь')]")).click();
-        //Первая форма Данные заявителя
-        driver.findElement(By.xpath("//div[contains(., 'Фамилия')]/following-sibling::input")).sendKeys("Холланд");
-        driver.findElement(By.xpath("//div[contains(., 'Имя')]/following-sibling::input")).sendKeys("Том");
-        driver.findElement(By.xpath("//div[contains(., 'Отчество')]/following-sibling::input")).sendKeys("Иванович");
-        driver.findElement(By.xpath("//div[contains(., 'Телефон')]/following-sibling::input")).sendKeys("85553535");
-        driver.findElement(By.xpath("//div[contains(., 'Номер паспорта')]/following-sibling::input")).sendKeys("85553535");
-        driver.findElement(By.xpath("//div[contains(., 'Адрес прописки')]/following-sibling::input")).sendKeys("Москва");
-        By nextButton = By.xpath("//button[text()='Далее']");
-        Assert.assertTrue(driver.findElement(nextButton).isEnabled(),   "Кнопка disabled");
-        driver.findElement(nextButton).click();
-        //Выбор услуги
-        driver.findElement(By.xpath("//button[text()='Регистрация брака']")).click();
-        //Вторая форма Данные гражданина
-        driver.findElement(By.xpath("//div[contains(., 'Фамилия')]/following-sibling::input")).sendKeys("Холланд");
-        driver.findElement(By.xpath("//div[contains(., 'Имя')]/following-sibling::input")).sendKeys("Том");
-        driver.findElement(By.xpath("//div[contains(., 'Отчество')]/following-sibling::input")).sendKeys("Иванович");
-        driver.findElement(By.xpath("//div[contains(., 'Дата рождения')]/following-sibling::input")).sendKeys("01.06.1996");
-        driver.findElement(By.xpath("//div[contains(., 'Номер паспорта')]/following-sibling::input")).sendKeys("85553535");
-        driver.findElement(By.xpath("//div[contains(., 'Пол')]/following-sibling::input")).sendKeys("Муж");
-        driver.findElement(By.xpath("//div[contains(., 'Адрес прописки')]/following-sibling::input")).sendKeys("Москва");
-        Assert.assertTrue(driver.findElement(nextButton).isEnabled(),   "Кнопка disabled");
-        driver.findElement(nextButton).click();
-        //Третья форма Данные услуги
-        driver.findElement(By.xpath("//div[contains(., 'Дата регистрации')]/following-sibling::input")).sendKeys("05.08.2026");
-        driver.findElement(By.xpath("//div[contains(., 'Новая фамилия')]/following-sibling::input")).sendKeys("Холланд");
-        driver.findElement(By.xpath("//div[contains(., 'Фамилия супруга')]/following-sibling::input")).sendKeys("Холланд");
-        driver.findElement(By.xpath("//div[contains(., 'Имя супруга')]/following-sibling::input")).sendKeys("Зендея");
-        driver.findElement(By.xpath("//div[contains(., 'Отчество супруга')]/following-sibling::input")).sendKeys("Ивановна");
-        driver.findElement(By.xpath("//div[contains(., 'Дата рождения')]/following-sibling::input")).sendKeys("01.09.1996");
-        driver.findElement(By.xpath("//div[contains(., 'Номер паспорта')]/following-sibling::input")).sendKeys("85553535");
-        By buttonComplete = By.xpath("//button[text()='Завершить']");
-        Assert.assertTrue(driver.findElement(buttonComplete).isEnabled(),   "Кнопка disabled");
-        driver.findElement(buttonComplete).click();
-        //Статус заявки
-        String thanks = driver.findElement(By.xpath("//span[contains(text(),'Спасибо')]")).getText();
-        Assert.assertEquals(thanks, "Спасибо за обращение!");
-        String status = driver.findElement(By.xpath("//span[contains(.,'Статус заявки:')]")).getText();
-        Assert.assertEquals(status, "Статус заявки: На рассмотрении.");
+    private static final BirthApplication BIRTH_APPLICATION = new BirthApplication(
+            new Applicant("Холланд", "Том", "Иванович", "85553535", "85553535", "Москва"),
+            new Citizen("Холланд", "Том", "Иванович", "01.06.1996", "85553535", "Муж", "Москва"),
+            new BirthDetails("Лондон", "Зендея", "Том", "Мария", "Иван")
+    );
 
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM d yyyy", Locale.ENGLISH);
-        String formattedDate = today.format(formatter);
-        String date = driver.findElement(By.xpath("//span[contains(.,'Дата')]")).getText();
-        Assert.assertEquals(date, "Дата регистрации заявки " + formattedDate);
-        driver.quit();
+    private static final DeathApplication DEATH_APPLICATION = new DeathApplication(
+            new Applicant("Иванов", "Иван", "Иванович", "85553535", "85553535", "Москва"),
+            new Citizen("Иванов", "Иван", "Иванович", "01.06.1996", "85553535", "Муж", "Москва"),
+            new DeathDetails("20.02.2026", "Москва")
+    );
+
+    private static final AdminDetails ADMIN_APPLICATION = new AdminDetails(
+            "Иванов", "Иван", "Иванович", "85553535", "85553535", "01.09.1996"
+    );
+
+    private static final String STATUS_PENDING = "На рассмотрении";
+    private static final String STATUS_APPROVED = "Одобрена";
+    private static final String STATUS_REJECTED = "Отклонена";
+
+    private LoginPage loginPage;
+    private FormStepPage stepPage;
+    private ApplicantFormPage applicantFormPage;
+    private ServiceSelectionPage serviceSelectionPage;
+    private CitizenFormPage citizenFormPage;
+    private MarriageFormPage marriageFormPage;
+    private DeathFormPage  deathFormPage;
+    private BirthFormPage birthFormPage;
+    private ApplicationStatusPage statusPage;
+    private AdminDetailsPage adminDetailsPage;
+    private AdminApplicationPage adminApplicationPage;
+
+    @BeforeMethod
+    public void setUp() {
+        loginPage = new LoginPage();
+        stepPage = new FormStepPage();
+        applicantFormPage = new ApplicantFormPage();
+        serviceSelectionPage = new ServiceSelectionPage();
+        citizenFormPage = new CitizenFormPage();
+        marriageFormPage = new MarriageFormPage();
+        deathFormPage = new DeathFormPage();
+        birthFormPage = new BirthFormPage();
+        statusPage = new ApplicationStatusPage();
+        adminDetailsPage = new AdminDetailsPage();
+        adminApplicationPage = new AdminApplicationPage();
+
+        loginPage.open();
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        DriverSingleton.quitDriver();
+    }
+
+    @Test
+    public void marriageRegistrationTest() {
+        loginPage.loginAsUser();
+
+        // Первая форма: данные заявителя
+        applicantFormPage.fill(MARRIAGE_APPLICATION.getApplicant());
+        Assert.assertTrue(stepPage.isNextButtonEnabled(), "Кнопка 'Далее' disabled на форме заявителя");
+        stepPage.clickNextButton();
+
+        // Выбор услуги
+        serviceSelectionPage.selectMarriageRegistration();
+
+        // Вторая форма: данные гражданина
+        citizenFormPage.fill(MARRIAGE_APPLICATION.getCitizen());
+        Assert.assertTrue(stepPage.isNextButtonEnabled(), "Кнопка 'Далее' disabled на форме гражданина");
+        stepPage.clickNextButton();
+
+        // Третья форма: данные услуги
+        marriageFormPage.fill(MARRIAGE_APPLICATION.getMarriageDetails());
+        Assert.assertTrue(stepPage.isCompleteButtonEnabled(), "Кнопка 'Завершить' disabled");
+        stepPage.clickCompleteButton();
+
+        // Статус заявки
+        Assert.assertEquals(statusPage.getThanksText(), "Спасибо за обращение!");
+        Assert.assertEquals(statusPage.getStatusText(), "Статус заявки: На рассмотрении.");
+        Assert.assertEquals(statusPage.getRegistrationDateText(), statusPage.getExpectedRegistrationDate());
+    }
+
+    @Test
+    public void birthRegistrationTest() {
+        loginPage.loginAsUser();
+
+        // Первая форма: данные заявителя
+        applicantFormPage.fill(BIRTH_APPLICATION.getApplicant());
+        Assert.assertTrue(stepPage.isNextButtonEnabled(), "Кнопка 'Далее' disabled на форме заявителя");
+        stepPage.clickNextButton();
+
+        // Выбор услуги
+        serviceSelectionPage.selectBirthRegistration();
+
+        // Вторая форма: данные гражданина
+        citizenFormPage.fill(BIRTH_APPLICATION.getCitizen());
+        Assert.assertTrue(stepPage.isNextButtonEnabled(), "Кнопка 'Далее' disabled на форме гражданина");
+        stepPage.clickNextButton();
+
+        // Третья форма: данные услуги
+        birthFormPage.fill(BIRTH_APPLICATION.getBirthDetails());
+        Assert.assertTrue(stepPage.isCompleteButtonEnabled(), "Кнопка 'Завершить' disabled");
+        stepPage.clickCompleteButton();
+
+        // Статус заявки
+        Assert.assertEquals(statusPage.getThanksText(), "Спасибо за обращение!");
+        Assert.assertEquals(statusPage.getStatusText(), "Статус заявки: На рассмотрении.");
+        Assert.assertEquals(statusPage.getRegistrationDateText(), statusPage.getExpectedRegistrationDate());
+    }
+
+    @Test
+    public void deathRegistrationTest() {
+        loginPage.loginAsUser();
+
+        // Первая форма: данные заявителя
+        applicantFormPage.fill(DEATH_APPLICATION.getApplicant());
+        Assert.assertTrue(stepPage.isNextButtonEnabled(), "Кнопка 'Далее' disabled на форме заявителя");
+        stepPage.clickNextButton();
+
+        // Выбор услуги
+        serviceSelectionPage.selectDeathRegistration();
+
+        // Вторая форма: данные гражданина
+        citizenFormPage.fill(DEATH_APPLICATION.getCitizen());
+        Assert.assertTrue(stepPage.isNextButtonEnabled(), "Кнопка 'Далее' disabled на форме гражданина");
+        stepPage.clickNextButton();
+
+        // Третья форма: данные услуги
+        deathFormPage.fill(DEATH_APPLICATION.getDeathDetails());
+        Assert.assertTrue(stepPage.isCompleteButtonEnabled(), "Кнопка 'Завершить' disabled");
+        stepPage.clickCompleteButton();
+
+        // Статус заявки
+        Assert.assertEquals(statusPage.getThanksText(), "Спасибо за обращение!");
+        Assert.assertEquals(statusPage.getStatusText(), "Статус заявки: На рассмотрении.");
+        Assert.assertEquals(statusPage.getRegistrationDateText(), statusPage.getExpectedRegistrationDate());
+    }
+
+    @Test
+    public void adminTest() {
+        loginPage.loginAsAdmin();
+
+        // Первая форма: данные регистрации
+        adminDetailsPage.fill(ADMIN_APPLICATION);
+        Assert.assertTrue(stepPage.isNextButtonEnabled(), "Кнопка 'Далее' disabled на форме заявителя");
+        stepPage.clickNextButton();
+
+        // Вторая форма: администрирование заявок
+        //Подтверждение заявки
+        adminApplicationPage.goToNextPage();
+        adminApplicationPage.goToPage(3);
+        adminApplicationPage.goToPreviousPage();
+        adminApplicationPage.goToPage(1);
+
+        //можно добавить пререквизит с созданием конкретной заявки и потом с ней работать
+        //ApplicationRow rowToApprove = adminApplicationPage.getRows().get(2);
+        ApplicationRow rowToApprove = adminApplicationPage.getFirstRowWithStatus(STATUS_PENDING);
+        String approvedApplicationNumber = rowToApprove.getNumber();
+        Assert.assertEquals(rowToApprove.getStatus(), STATUS_PENDING,
+                "Заявка № " + approvedApplicationNumber + " должна быть 'На рассмотрении' до подтверждения");
+
+        rowToApprove.approve();
+        adminApplicationPage.waitForStatus(approvedApplicationNumber, STATUS_APPROVED);
+
+        ApplicationRow approvedRow = adminApplicationPage.getRowByNumber(approvedApplicationNumber);
+        Assert.assertEquals(approvedRow.getStatus(), STATUS_APPROVED,
+                "Заявка № " + approvedApplicationNumber + " должна получить статус 'Одобрена' после подтверждения");
+
+        //Отклонение заявки
+        //ApplicationRow rowToReject = adminApplicationPage.getRows().get(4);
+        ApplicationRow rowToReject = adminApplicationPage.getFirstRowWithStatus(STATUS_PENDING);
+        String rejectedApplicationNumber = rowToReject.getNumber();
+        Assert.assertEquals(rowToReject.getStatus(), STATUS_PENDING,
+                "Заявка № " + rejectedApplicationNumber + " должна быть 'На рассмотрении' до отклонения");
+
+        rowToReject.reject();
+        adminApplicationPage.waitForStatus(rejectedApplicationNumber, STATUS_REJECTED);
+
+        ApplicationRow rejectedRow = adminApplicationPage.getRowByNumber(rejectedApplicationNumber);
+        Assert.assertEquals(rejectedRow.getStatus(), STATUS_REJECTED,
+                "Заявка № " + rejectedApplicationNumber + " должна получить статус 'Отклонена' после отклонения");
     }
 }
