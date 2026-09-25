@@ -1,34 +1,50 @@
 package model;
 
-import java.util.Objects;
-
 public final class DeathApplication {
 
     private final Applicant applicant;
     private final Citizen citizen;
     private final DeathDetails deathDetails;
 
-    public DeathApplication(Applicant applicant, Citizen citizen, DeathDetails deathDetails) {
-        this.applicant = applicant;
-        this.citizen = citizen;
-        this.deathDetails = deathDetails;
+    private DeathApplication(Builder builder) {
+        this.applicant = builder.applicant;
+        this.citizen = builder.citizen;
+        this.deathDetails = builder.deathDetails;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public Applicant getApplicant() { return applicant; }
     public Citizen getCitizen() { return citizen; }
     public DeathDetails getDeathDetails() { return deathDetails; }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof DeathApplication that)) return false;
-        return Objects.equals(applicant, that.applicant)
-                && Objects.equals(citizen, that.citizen)
-                && Objects.equals(deathDetails, that.deathDetails);
-    }
+    // ---------- Builder ----------
+    public static final class Builder {
+        private Applicant applicant;
+        private Citizen citizen;
+        private DeathDetails deathDetails;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(applicant, citizen, deathDetails);
+        private Builder() {}
+
+        public Builder applicant(Applicant applicant) {
+            this.applicant = applicant;
+            return this;
+        }
+
+        public Builder citizen(Citizen citizen) {
+            this.citizen = citizen;
+            return this;
+        }
+
+        public Builder deathDetails(DeathDetails deathDetails) {
+            this.deathDetails = deathDetails;
+            return this;
+        }
+
+        public DeathApplication build() {
+            return new DeathApplication(this);
+        }
     }
 }

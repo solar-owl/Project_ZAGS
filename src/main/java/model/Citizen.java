@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Objects;
-
 public final class Citizen {
 
     private final String lastName;
@@ -12,15 +10,18 @@ public final class Citizen {
     private final String gender;
     private final String registrationAddress;
 
-    public Citizen(String lastName, String firstName, String middleName, String birthDate,
-                   String passportNumber, String gender, String registrationAddress) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.birthDate = birthDate;
-        this.passportNumber = passportNumber;
-        this.gender = gender;
-        this.registrationAddress = registrationAddress;
+    private Citizen(Builder builder) {
+        this.lastName = builder.lastName;
+        this.firstName = builder.firstName;
+        this.middleName = builder.middleName;
+        this.birthDate = builder.birthDate;
+        this.passportNumber = builder.passportNumber;
+        this.gender = builder.gender;
+        this.registrationAddress = builder.registrationAddress;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getLastName() { return lastName; }
@@ -31,21 +32,55 @@ public final class Citizen {
     public String getGender() { return gender; }
     public String getRegistrationAddress() { return registrationAddress; }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Citizen that)) return false;
-        return Objects.equals(lastName, that.lastName)
-                && Objects.equals(firstName, that.firstName)
-                && Objects.equals(middleName, that.middleName)
-                && Objects.equals(birthDate, that.birthDate)
-                && Objects.equals(passportNumber, that.passportNumber)
-                && Objects.equals(gender, that.gender)
-                && Objects.equals(registrationAddress, that.registrationAddress);
-    }
+    // ---------- Builder ----------
+    public static final class Builder {
+        private String lastName;
+        private String firstName;
+        private String middleName;
+        private String birthDate;
+        private String passportNumber;
+        private String gender;
+        private String registrationAddress;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(lastName, firstName, middleName, birthDate, passportNumber, gender, registrationAddress);
+        private Builder() {}
+
+        public Builder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder middleName(String middleName) {
+            this.middleName = middleName;
+            return this;
+        }
+
+        public Builder birthDate(String birthDate) {
+            this.birthDate = birthDate;
+            return this;
+        }
+
+        public Builder passportNumber(String passportNumber) {
+            this.passportNumber = passportNumber;
+            return this;
+        }
+
+        public Builder gender(String gender) {
+            this.gender = gender;
+            return this;
+        }
+
+        public Builder registrationAddress(String registrationAddress) {
+            this.registrationAddress = registrationAddress;
+            return this;
+        }
+
+        public Citizen build() {
+            return new Citizen(this);
+        }
     }
 }

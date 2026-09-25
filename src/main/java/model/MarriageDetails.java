@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Objects;
-
 public final class MarriageDetails {
 
     private final String registrationDate;
@@ -12,16 +10,18 @@ public final class MarriageDetails {
     private final String spouseBirthDate;
     private final String spousePassportNumber;
 
-    public MarriageDetails(String registrationDate, String newLastName, String spouseLastName,
-                           String spouseFirstName, String spouseMiddleName,
-                           String spouseBirthDate, String spousePassportNumber) {
-        this.registrationDate = registrationDate;
-        this.newLastName = newLastName;
-        this.spouseLastName = spouseLastName;
-        this.spouseFirstName = spouseFirstName;
-        this.spouseMiddleName = spouseMiddleName;
-        this.spouseBirthDate = spouseBirthDate;
-        this.spousePassportNumber = spousePassportNumber;
+    private MarriageDetails(Builder builder) {
+        this.registrationDate = builder.registrationDate;
+        this.newLastName = builder.newLastName;
+        this.spouseLastName = builder.spouseLastName;
+        this.spouseFirstName = builder.spouseFirstName;
+        this.spouseMiddleName = builder.spouseMiddleName;
+        this.spouseBirthDate = builder.spouseBirthDate;
+        this.spousePassportNumber = builder.spousePassportNumber;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getRegistrationDate() { return registrationDate; }
@@ -32,22 +32,56 @@ public final class MarriageDetails {
     public String getSpouseBirthDate() { return spouseBirthDate; }
     public String getSpousePassportNumber() { return spousePassportNumber; }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MarriageDetails that)) return false;
-        return Objects.equals(registrationDate, that.registrationDate)
-                && Objects.equals(newLastName, that.newLastName)
-                && Objects.equals(spouseLastName, that.spouseLastName)
-                && Objects.equals(spouseFirstName, that.spouseFirstName)
-                && Objects.equals(spouseMiddleName, that.spouseMiddleName)
-                && Objects.equals(spouseBirthDate, that.spouseBirthDate)
-                && Objects.equals(spousePassportNumber, that.spousePassportNumber);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(registrationDate, newLastName, spouseLastName, spouseFirstName,
-                spouseMiddleName, spouseBirthDate, spousePassportNumber);
+    // ---------- Builder ----------
+    public static final class Builder {
+        private String registrationDate;
+        private String newLastName;
+        private String spouseLastName;
+        private String spouseFirstName;
+        private String spouseMiddleName;
+        private String spouseBirthDate;
+        private String spousePassportNumber;
+
+        private Builder() {}
+
+        public Builder registrationDate(String registrationDate) {
+            this.registrationDate = registrationDate;
+            return this;
+        }
+
+        public Builder newLastName(String newLastName) {
+            this.newLastName = newLastName;
+            return this;
+        }
+
+        public Builder spouseLastName(String spouseLastName) {
+            this.spouseLastName = spouseLastName;
+            return this;
+        }
+
+        public Builder spouseFirstName(String spouseFirstName) {
+            this.spouseFirstName = spouseFirstName;
+            return this;
+        }
+
+        public Builder spouseMiddleName(String spouseMiddleName) {
+            this.spouseMiddleName = spouseMiddleName;
+            return this;
+        }
+
+        public Builder spouseBirthDate(String spouseBirthDate) {
+            this.spouseBirthDate = spouseBirthDate;
+            return this;
+        }
+
+        public Builder spousePassportNumber(String spousePassportNumber) {
+            this.spousePassportNumber = spousePassportNumber;
+            return this;
+        }
+
+        public MarriageDetails build() {
+            return new MarriageDetails(this);
+        }
     }
 }

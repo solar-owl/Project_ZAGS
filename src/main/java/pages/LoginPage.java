@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
@@ -11,15 +12,18 @@ public class LoginPage extends BasePage {
     private final By loginAsUserButton = By.xpath("//button[contains(., 'Войти как пользователь')]");
     private final By loginAsAdminButton = By.xpath("//button[contains(., 'Войти как администратор')]");
 
+    @Step("Открыть страницу https://regoffice.senla.eu")
     public void open() {
         driver.get(URL);
     }
 
+    @Step("Войти как пользователь")
     public void loginAsUser() {
-        click(loginAsUserButton);
+        driver.findElement(loginAsUserButton).click();
     }
 
+    @Step("Войти как администратор")
     public void loginAsAdmin() {
-        click(loginAsAdminButton);
+        driver.findElement(loginAsAdminButton).click();
     }
 }

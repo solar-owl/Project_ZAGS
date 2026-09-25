@@ -1,9 +1,13 @@
 package elements;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public class ApplicationRow {
+
+    private static final Logger logger = LogManager.getLogger(ApplicationRow.class);
 
     private final WebElement row;
     private final By numberCell = By.xpath("./td[1]");
@@ -16,33 +20,55 @@ public class ApplicationRow {
 
     public ApplicationRow(WebElement row) {
         this.row = row;
+        logger.debug("Создан ApplicationRow");
     }
 
     public String getNumber() {
-        return row.findElement(numberCell).getText();
+        String value = row.findElement(numberCell).getText();
+        logger.debug("Получен номер заявки: {}", value);
+        return value;
     }
 
     public String getApplicant() {
-        return row.findElement(applicantCell).getText();
+        String value = row.findElement(applicantCell).getText();
+        logger.debug("Получен заявитель: {}", value);
+        return value;
     }
 
     public String getType() {
-        return row.findElement(typeCell).getText();
+        String value = row.findElement(typeCell).getText();
+        logger.debug("Получен тип услуги: {}", value);
+        return value;
     }
 
     public String getTime() {
-        return row.findElement(timeCell).getText();
+        String value = row.findElement(timeCell).getText();
+        logger.debug("Получено время подачи: {}", value);
+        return value;
     }
 
     public String getStatus() {
-        return row.findElement(statusCell).getText();
+        String value = row.findElement(statusCell).getText();
+        logger.debug("Получен статус заявки: {}", value);
+        return value;
     }
 
     public void approve() {
+        String number = getNumber();
+        logger.info("Подтверждение заявки № {}", number);
         row.findElement(approveButton).click();
+        logger.info("Кнопка 'Подтвердить' нажата для заявки № {}", number);
     }
 
     public void reject() {
+        String number = getNumber();
+        logger.info("Отклонение заявки № {}", number);
         row.findElement(rejectButton).click();
+        logger.info("Кнопка 'Отклонить' нажата для заявки № {}", number);
+    }
+
+    @Override
+    public String toString() {
+        return "заявка № " + getNumber();
     }
 }

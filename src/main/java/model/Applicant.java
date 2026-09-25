@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Objects;
-
 public final class Applicant {
 
     private final String lastName;
@@ -11,14 +9,17 @@ public final class Applicant {
     private final String passportNumber;
     private final String registrationAddress;
 
-    public Applicant(String lastName, String firstName, String middleName,
-                     String phone, String passportNumber, String registrationAddress) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.phone = phone;
-        this.passportNumber = passportNumber;
-        this.registrationAddress = registrationAddress;
+    private Applicant(Builder builder) {
+        this.lastName = builder.lastName;
+        this.firstName = builder.firstName;
+        this.middleName = builder.middleName;
+        this.phone = builder.phone;
+        this.passportNumber = builder.passportNumber;
+        this.registrationAddress = builder.registrationAddress;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getLastName() { return lastName; }
@@ -28,20 +29,49 @@ public final class Applicant {
     public String getPassportNumber() { return passportNumber; }
     public String getRegistrationAddress() { return registrationAddress; }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Applicant that)) return false;
-        return Objects.equals(lastName, that.lastName)
-                && Objects.equals(firstName, that.firstName)
-                && Objects.equals(middleName, that.middleName)
-                && Objects.equals(phone, that.phone)
-                && Objects.equals(passportNumber, that.passportNumber)
-                && Objects.equals(registrationAddress, that.registrationAddress);
-    }
+    // ---------- Builder ----------
+    public static final class Builder {
+        private String lastName;
+        private String firstName;
+        private String middleName;
+        private String phone;
+        private String passportNumber;
+        private String registrationAddress;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(lastName, firstName, middleName, phone, passportNumber, registrationAddress);
+        private Builder() {}
+
+        public Builder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder middleName(String middleName) {
+            this.middleName = middleName;
+            return this;
+        }
+
+        public Builder phone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public Builder passportNumber(String passportNumber) {
+            this.passportNumber = passportNumber;
+            return this;
+        }
+
+        public Builder registrationAddress(String registrationAddress) {
+            this.registrationAddress = registrationAddress;
+            return this;
+        }
+
+        public Applicant build() {
+            return new Applicant(this);
+        }
     }
 }

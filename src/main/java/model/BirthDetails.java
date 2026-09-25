@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Objects;
-
 public final class BirthDetails {
 
     private final String birthPlace;
@@ -10,13 +8,16 @@ public final class BirthDetails {
     private final String grandMother;
     private final String grandFather;
 
-    public BirthDetails(String birthPlace, String mother, String father,
-                        String grandMother, String grandFather) {
-        this.birthPlace = birthPlace;
-        this.mother = mother;
-        this.father = father;
-        this.grandMother = grandMother;
-        this.grandFather = grandFather;
+    private BirthDetails(Builder builder) {
+        this.birthPlace = builder.birthPlace;
+        this.mother = builder.mother;
+        this.father = builder.father;
+        this.grandMother = builder.grandMother;
+        this.grandFather = builder.grandFather;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getBirthPlace() { return birthPlace; }
@@ -25,19 +26,43 @@ public final class BirthDetails {
     public String getGrandMother() { return grandMother; }
     public String getGrandFather() { return grandFather; }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BirthDetails that)) return false;
-        return Objects.equals(birthPlace, that.birthPlace)
-                && Objects.equals(mother, that.mother)
-                && Objects.equals(father, that.father)
-                && Objects.equals(grandMother, that.grandMother)
-                && Objects.equals(grandFather, that.grandFather);
-    }
+    // ---------- Builder ----------
+    public static final class Builder {
+        private String birthPlace;
+        private String mother;
+        private String father;
+        private String grandMother;
+        private String grandFather;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(birthPlace, mother, father, grandMother, grandFather);
+        private Builder() {}
+
+        public Builder birthPlace(String birthPlace) {
+            this.birthPlace = birthPlace;
+            return this;
+        }
+
+        public Builder mother(String mother) {
+            this.mother = mother;
+            return this;
+        }
+
+        public Builder father(String father) {
+            this.father = father;
+            return this;
+        }
+
+        public Builder grandMother(String grandMother) {
+            this.grandMother = grandMother;
+            return this;
+        }
+
+        public Builder grandFather(String grandFather) {
+            this.grandFather = grandFather;
+            return this;
+        }
+
+        public BirthDetails build() {
+            return new BirthDetails(this);
+        }
     }
 }

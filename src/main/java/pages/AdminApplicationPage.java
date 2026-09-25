@@ -1,10 +1,11 @@
 package pages;
 
 import elements.ApplicationRow;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import org.testng.Assert;
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -44,20 +45,30 @@ public class AdminApplicationPage extends BasePage{
                 .until(d -> getRowByNumber(applicationNumber).getStatus().equals(expectedStatus));
     }
 
+    @Step("Перейти на страницу номер {pageNumber}")
     public void goToPage(int pageNumber) {
         By locator = By.xpath(String.format(PAGE_NUMBER_BUTTON_XPATH, pageNumber));
-        click(locator);
+        driver.findElement(locator).click();
     }
 
+    @Step("Перейти на следующую страницу")
     public void goToNextPage() {
-        click(nextPageButton);
+        driver.findElement(nextPageButton).click();
     }
 
+    @Step("Перейти на предыдущую страницу")
     public void goToPreviousPage() {
-        click(prevPageButton);
+        driver.findElement(prevPageButton).click();
     }
 
+    @Step("Нажать кнопку 'Обновить'")
     public void refresh() {
-        click(refreshButton);
+        driver.findElement(refreshButton).click();
+    }
+
+    @Step("Проверить, что заявка {row} имеет статус '{expectedStatus}'")
+    public void checkRowStatus(ApplicationRow row, String expectedStatus) {
+        Assert.assertEquals(row.getStatus(), expectedStatus,
+                "Заявка № " + row.getNumber() + " должна иметь статус '" + expectedStatus + "'");
     }
 }

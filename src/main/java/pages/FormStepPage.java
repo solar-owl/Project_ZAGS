@@ -1,23 +1,38 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 
 public class FormStepPage extends BasePage {
     protected static final By nextButton = By.xpath("//button[text()='Далее']");
     protected static final By completeButton = By.xpath("//button[text()='Завершить']");
 
+    @Step("Проверить, что кнопка 'Далее' активна")
     public boolean isNextButtonEnabled() {
-        return isEnabled(nextButton);
+        return driver.findElement(nextButton).isEnabled();
     }
 
+    @Step("Нажать кнопку 'Далее'")
     public void clickNextButton() {
-        click(nextButton);
+        driver.findElement(nextButton).click();
     }
 
+    @Step("Проверить, что кнопка 'Далее' активна")
+    public void checkNextButtonEnabled() {
+        Assert.assertTrue(isNextButtonEnabled(), "Кнопка 'Далее' disabled");
+    }
+
+    @Step("Проверить, что кнопка 'Завершить' активна")
     public boolean isCompleteButtonEnabled() {
-        return isEnabled(completeButton);
+        return driver.findElement(completeButton).isEnabled();
     }
 
-    public void clickCompleteButton() { click(completeButton); }
+    @Step("Нажать кнопку 'Завершить'")
+    public void clickCompleteButton() { driver.findElement(completeButton).click(); }
 
+    @Step("Проверить, что кнопка 'Завершить' активна")
+    public void checkCompleteButtonEnabled() {
+        Assert.assertTrue(isCompleteButtonEnabled(), "Кнопка 'Завершить' disabled");
+    }
 }

@@ -1,6 +1,8 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,20 +15,38 @@ public class ApplicationStatusPage extends BasePage {
     private final By registrationDateMessage = By.xpath("//span[contains(.,'Дата')]");
 
     public String getThanksText() {
-        return getText(thanksMessage);
+        return driver.findElement(thanksMessage).getText();
     }
 
     public String getStatusText() {
-        return getText(statusMessage);
+        return driver.findElement(statusMessage).getText();
     }
 
     public String getRegistrationDateText() {
-        return getText(registrationDateMessage);
+        return driver.findElement(registrationDateMessage).getText();
     }
 
     public String getExpectedRegistrationDate() {
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM d yyyy", Locale.ENGLISH);
         return "Дата регистрации заявки " + today.format(formatter);
+    }
+
+    @Step("Проверить текст благодарности: '{expectedText}'")
+    public void checkThanksText(String expectedText) {
+        Assert.assertEquals(getThanksText(), expectedText,
+                "Неверный текст благодарности");
+    }
+
+    @Step("Проверить статус заявки: '{expectedStatus}'")
+    public void checkStatusText(String expectedStatus) {
+        Assert.assertEquals(getStatusText(), expectedStatus,
+                "Неверный статус заявки");
+    }
+
+    @Step("Проверить дату регистрации заявки")
+    public void checkRegistrationDate() {
+        Assert.assertEquals(getRegistrationDateText(), getExpectedRegistrationDate(),
+                "Неверная дата регистрации");
     }
 }
