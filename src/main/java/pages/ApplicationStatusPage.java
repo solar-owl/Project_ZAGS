@@ -28,20 +28,22 @@ public class ApplicationStatusPage extends BasePage {
 
     public String getExpectedRegistrationDate() {
         LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM d yyyy", Locale.ENGLISH);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd yyyy", Locale.ENGLISH);
         return "Дата регистрации заявки " + today.format(formatter);
     }
 
     @Step("Проверить текст благодарности: '{expectedText}'")
-    public void checkThanksText(String expectedText) {
+    public ApplicationStatusPage checkThanksText(String expectedText) {
         Assert.assertEquals(getThanksText(), expectedText,
                 "Неверный текст благодарности");
+        return this;
     }
 
     @Step("Проверить статус заявки: '{expectedStatus}'")
-    public void checkStatusText(String expectedStatus) {
+    public ApplicationStatusPage checkStatusText(String expectedStatus) {
         Assert.assertEquals(getStatusText(), expectedStatus,
                 "Неверный статус заявки");
+        return this;
     }
 
     @Step("Проверить дату регистрации заявки")

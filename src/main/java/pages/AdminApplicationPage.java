@@ -46,19 +46,22 @@ public class AdminApplicationPage extends BasePage{
     }
 
     @Step("Перейти на страницу номер {pageNumber}")
-    public void goToPage(int pageNumber) {
+    public AdminApplicationPage goToPage(int pageNumber) {
         By locator = By.xpath(String.format(PAGE_NUMBER_BUTTON_XPATH, pageNumber));
         driver.findElement(locator).click();
+        return this;
     }
 
     @Step("Перейти на следующую страницу")
-    public void goToNextPage() {
+    public AdminApplicationPage goToNextPage() {
         driver.findElement(nextPageButton).click();
+        return this;
     }
 
     @Step("Перейти на предыдущую страницу")
-    public void goToPreviousPage() {
+    public AdminApplicationPage goToPreviousPage() {
         driver.findElement(prevPageButton).click();
+        return this;
     }
 
     @Step("Нажать кнопку 'Обновить'")

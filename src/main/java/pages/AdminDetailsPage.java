@@ -14,7 +14,7 @@ public class AdminDetailsPage extends BasePage{
     private final By fieldBirthDate = By.xpath("//div[contains(., 'Дата рождения')]/following-sibling::input");
 
     @Step("Заполнить все поля формы данных администратора")
-    public void fill_all_fields_in_details_form(AdminDetails adminDetails) {
+    public void fillAllFieldsInDetailForm(AdminDetails adminDetails) {
         fillLastName(adminDetails.getLastName());
         fillFirstName(adminDetails.getFirstName());
         fillMiddleName(adminDetails.getMiddleName());

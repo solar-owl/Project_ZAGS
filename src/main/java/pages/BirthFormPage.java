@@ -13,7 +13,7 @@ public class BirthFormPage extends BasePage{
     private final By fieldGrandFather = By.xpath("//div[contains(., 'Дедушка')]/following-sibling::input");
 
     @Step("Заполнить все поля формы рождения")
-    public void fill_all_fields_in_birth_form(BirthDetails details) {
+    public void fillAllFieldsInBirthForm(BirthDetails details) {
         fillBirthPlace(details.getBirthPlace());
         fillMother(details.getMother());
         fillFather(details.getFather());

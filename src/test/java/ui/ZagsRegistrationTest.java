@@ -1,3 +1,5 @@
+package ui;
+
 import driver.DriverSingleton;
 import elements.ApplicationRow;
 import io.qameta.allure.Description;
@@ -13,102 +15,16 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.*;
+import utils.AdminRandomizer;
+import utils.BirthRandomizer;
+import utils.DeathRandomizer;
+import utils.MarriageRandomizer;
 
 @Listeners(ScreenshotListener.class)
-@Epic("Услуги ЗАГС")
+@Epic("Услуги ЗАГС UI")
 public class ZagsRegistrationTest {
 
     private static final Logger logger = LogManager.getLogger(ZagsRegistrationTest.class);
-
-    private static final MarriageApplication MARRIAGE_APPLICATION = MarriageApplication.builder()
-            .applicant(Applicant.builder()
-                    .lastName("Холланд")
-                    .firstName("Том")
-                    .middleName("Иванович")
-                    .phone("85553535")
-                    .passportNumber("85553535")
-                    .registrationAddress("Москва")
-                    .build())
-            .citizen(Citizen.builder()
-                    .lastName("Холланд")
-                    .firstName("Том")
-                    .middleName("Иванович")
-                    .birthDate("01.06.1996")
-                    .passportNumber("85553535")
-                    .gender("Муж")
-                    .registrationAddress("Москва")
-                    .build())
-            .marriageDetails(MarriageDetails.builder()
-                    .registrationDate("05.08.2026")
-                    .newLastName("Холланд")
-                    .spouseLastName("Коулман")
-                    .spouseFirstName("Зендея")
-                    .spouseMiddleName("Ивановна")
-                    .spouseBirthDate("01.09.1996")
-                    .spousePassportNumber("85553535")
-                    .build())
-            .build();
-
-    private static final BirthApplication BIRTH_APPLICATION = BirthApplication.builder()
-            .applicant(Applicant.builder()
-                    .lastName("Холланд")
-                    .firstName("Том")
-                    .middleName("Иванович")
-                    .phone("85553535")
-                    .passportNumber("85553535")
-                    .registrationAddress("Москва")
-                    .build())
-            .citizen(Citizen.builder()
-                    .lastName("Холланд")
-                    .firstName("Том")
-                    .middleName("Иванович")
-                    .birthDate("01.06.1996")
-                    .passportNumber("85553535")
-                    .gender("Муж")
-                    .registrationAddress("Москва")
-                    .build())
-            .birthDetails(BirthDetails.builder()
-                    .birthPlace("Лондон")
-                    .mother("Зендея")
-                    .father("Том")
-                    .grandMother("Мария")
-                    .grandFather("Иван")
-                    .build())
-            .build();
-
-    private static final DeathApplication DEATH_APPLICATION = DeathApplication.builder()
-            .applicant(Applicant.builder()
-                    .lastName("Иванов")
-                    .firstName("Иван")
-                    .middleName("Иванович")
-                    .phone("85553535")
-                    .passportNumber("85553535")
-                    .registrationAddress("Москва")
-                    .build())
-            .citizen(Citizen.builder()
-                    .lastName("Иванов")
-                    .firstName("Иван")
-                    .middleName("Иванович")
-                    .birthDate("01.06.1996")
-                    .passportNumber("85553535")
-                    .gender("Муж")
-                    .registrationAddress("Москва")
-                    .build())
-            .deathDetails(DeathDetails.builder()
-                    .deathDate("20.02.2026")
-                    .deathPlace("Москва")
-                    .build())
-            .build();
-
-
-    private static final AdminDetails ADMIN_APPLICATION = AdminDetails.builder()
-            .lastName("Иванов")
-            .firstName("Иван")
-            .middleName("Иванович")
-            .phone("85553535")
-            .passportNumber("85553535")
-            .birthDate("01.09.1996")
-            .build();
 
     private static final String STATUS_PENDING = "На рассмотрении";
     private static final String STATUS_APPROVED = "Одобрена";
@@ -157,15 +73,16 @@ public class ZagsRegistrationTest {
     @Feature("Регистрация брака")
     @Story("Подача заявки на регистрацию брака")
     public void marriageRegistrationTest() {
+        MarriageApplication data = MarriageRandomizer.random();
         logger.info("=== НАЧАЛО ТЕСТА: marriageRegistrationTest ===");
         logger.info("Авторизация пользователя");
         loginPage.loginAsUser();
 
         // Первая форма: данные заявителя
         logger.info("Шаг 1: заполнение данных заявителя");
-        applicantFormPage.fill_all_fields_in_applicant_form(MARRIAGE_APPLICATION.getApplicant());
-        stepPage.checkNextButtonEnabled();
-        stepPage.clickNextButton();
+        applicantFormPage.fillAllFieldsInApplicantForm(data.getApplicant());
+        stepPage.checkNextButtonEnabled()
+                .clickNextButton();
 
         // Выбор услуги
         logger.info("Шаг 2: выбор услуги 'Регистрация брака'");
@@ -173,21 +90,21 @@ public class ZagsRegistrationTest {
 
         // Вторая форма: данные гражданина
         logger.info("Шаг 3: заполнение данных гражданина");
-        citizenFormPage.fill_all_fields_in_citizen_form(MARRIAGE_APPLICATION.getCitizen());
-        stepPage.checkNextButtonEnabled();
-        stepPage.clickNextButton();
+        citizenFormPage.fillAllFieldsInCitizenForm(data.getCitizen());
+        stepPage.checkNextButtonEnabled()
+                .clickNextButton();
 
         // Третья форма: данные услуги
         logger.info("Шаг 4: заполнение данных о браке");
-        marriageFormPage.fill_all_fields_in_marriage_form(MARRIAGE_APPLICATION.getMarriageDetails());
-        stepPage.checkCompleteButtonEnabled();
-        stepPage.clickCompleteButton();
+        marriageFormPage.fillAllFieldsInMarriageForm(data.getMarriageDetails());
+        stepPage.checkCompleteButtonEnabled()
+                .clickCompleteButton();
 
         // Статус заявки
         logger.info("Шаг 5: проверка статуса заявки");
-        statusPage.checkThanksText("Спасибо за обращение!");
-        statusPage.checkStatusText("Статус заявки: На рассмотрении.");
-        statusPage.checkRegistrationDate();
+        statusPage.checkThanksText("Спасибо за обращение!")
+                  .checkStatusText("Статус заявки: На рассмотрении.")
+                  .checkRegistrationDate();
         logger.info("=== ТЕСТ marriageRegistrationTest ЗАВЕРШЁН УСПЕШНО ===");
     }
 
@@ -196,15 +113,16 @@ public class ZagsRegistrationTest {
     @Feature("Регистрация рождения")
     @Story("Подача заявки на регистрацию рождения")
     public void birthRegistrationTest() {
+        BirthApplication data = BirthRandomizer.random();
         logger.info("=== НАЧАЛО ТЕСТА: birthRegistrationTest ===");
         logger.info("Авторизация пользователя");
         loginPage.loginAsUser();
 
         // Первая форма: данные заявителя
         logger.info("Шаг 1: заполнение данных заявителя");
-        applicantFormPage.fill_all_fields_in_applicant_form(BIRTH_APPLICATION.getApplicant());
-        stepPage.checkNextButtonEnabled();
-        stepPage.clickNextButton();
+        applicantFormPage.fillAllFieldsInApplicantForm(data.getApplicant());
+        stepPage.checkNextButtonEnabled()
+                .clickNextButton();
 
         // Выбор услуги
         logger.info("Шаг 2: выбор услуги 'Регистрация рождения'");
@@ -212,21 +130,21 @@ public class ZagsRegistrationTest {
 
         // Вторая форма: данные гражданина
         logger.info("Шаг 3: заполнение данных гражданина");
-        citizenFormPage.fill_all_fields_in_citizen_form(BIRTH_APPLICATION.getCitizen());
-        stepPage.checkNextButtonEnabled();
-        stepPage.clickNextButton();
+        citizenFormPage.fillAllFieldsInCitizenForm(data.getCitizen());
+        stepPage.checkNextButtonEnabled()
+                .clickNextButton();
 
         // Третья форма: данные услуги
         logger.info("Шаг 4: заполнение данных о рождении");
-        birthFormPage.fill_all_fields_in_birth_form(BIRTH_APPLICATION.getBirthDetails());
-        stepPage.checkCompleteButtonEnabled();
-        stepPage.clickCompleteButton();
+        birthFormPage.fillAllFieldsInBirthForm(data.getBirthDetails());
+        stepPage.checkCompleteButtonEnabled()
+                .clickCompleteButton();
 
         // Статус заявки
         logger.info("Шаг 5: проверка статуса заявки");
-        statusPage.checkThanksText("Спасибо за обращение!");
-        statusPage.checkStatusText("Статус заявки: На рассмотрении.");
-        statusPage.checkRegistrationDate();
+        statusPage.checkThanksText("Спасибо за обращение!")
+                  .checkStatusText("Статус заявки: На рассмотрении.")
+                  .checkRegistrationDate();
         logger.info("=== ТЕСТ birthRegistrationTest ЗАВЕРШЁН УСПЕШНО ===");
 
     }
@@ -236,6 +154,7 @@ public class ZagsRegistrationTest {
     @Feature("Регистрация смерти")
     @Story("Подача заявки на регистрацию смерти")
     public void deathRegistrationTest() {
+        DeathApplication data = DeathRandomizer.random();
         logger.info("=== НАЧАЛО ТЕСТА: deathRegistrationTest ===");
 
         logger.info("Авторизация пользователя");
@@ -243,9 +162,9 @@ public class ZagsRegistrationTest {
 
         // Первая форма: данные заявителя
         logger.info("Шаг 1: заполнение данных заявителя");
-        applicantFormPage.fill_all_fields_in_applicant_form(DEATH_APPLICATION.getApplicant());
-        stepPage.checkNextButtonEnabled();
-        stepPage.clickNextButton();
+        applicantFormPage.fillAllFieldsInApplicantForm(data.getApplicant());
+        stepPage.checkNextButtonEnabled()
+                .clickNextButton();
 
         // Выбор услуги
         logger.info("Шаг 2: выбор услуги 'Регистрация смерти'");
@@ -253,21 +172,21 @@ public class ZagsRegistrationTest {
 
         // Вторая форма: данные гражданина
         logger.info("Шаг 3: заполнение данных гражданина");
-        citizenFormPage.fill_all_fields_in_citizen_form(DEATH_APPLICATION.getCitizen());
-        stepPage.checkNextButtonEnabled();
-        stepPage.clickNextButton();
+        citizenFormPage.fillAllFieldsInCitizenForm(data.getCitizen());
+        stepPage.checkNextButtonEnabled()
+                .clickNextButton();
 
         // Третья форма: данные услуги
         logger.info("Шаг 4: заполнение данных о смерти");
-        deathFormPage.fill_all_fields_in_death_form(DEATH_APPLICATION.getDeathDetails());
-        stepPage.checkCompleteButtonEnabled();
-        stepPage.clickCompleteButton();
+        deathFormPage.fillAllFieldsInDeathForm(data.getDeathDetails());
+        stepPage.checkCompleteButtonEnabled()
+                .clickCompleteButton();
 
         // Статус заявки
         logger.info("Шаг 5: проверка статуса заявки");
-        statusPage.checkThanksText("Спасибо за обращение!");
-        statusPage.checkStatusText("Статус заявки: На рассмотрении.");
-        statusPage.checkRegistrationDate();
+        statusPage.checkThanksText("Спасибо за обращение!")
+                  .checkStatusText("Статус заявки: На рассмотрении.")
+                  .checkRegistrationDate();
         logger.info("=== ТЕСТ deathRegistrationTest ЗАВЕРШЁН УСПЕШНО ===");
     }
 
@@ -276,6 +195,7 @@ public class ZagsRegistrationTest {
     @Feature("Администрирование заявок")
     @Story("Управление заявками")
     public void adminTest() {
+        AdminDetails data = AdminRandomizer.random();
         logger.info("=== НАЧАЛО ТЕСТА: adminTest ===");
 
         logger.info("Авторизация администратора");
@@ -283,17 +203,17 @@ public class ZagsRegistrationTest {
 
         // Первая форма: данные регистрации
         logger.info("Шаг 1: заполнение данных регистрации администратора");
-        adminDetailsPage.fill_all_fields_in_details_form(ADMIN_APPLICATION);
-        stepPage.checkNextButtonEnabled();
-        stepPage.clickNextButton();
+        adminDetailsPage.fillAllFieldsInDetailForm(data);
+        stepPage.checkNextButtonEnabled()
+                .clickNextButton();
 
         // Вторая форма: администрирование заявок
         //Подтверждение заявки
         logger.info("Шаг 2: переход по страницам таблицы");
-        adminApplicationPage.goToNextPage();
-        adminApplicationPage.goToPage(3);
-        adminApplicationPage.goToPreviousPage();
-        adminApplicationPage.goToPage(1);
+        adminApplicationPage.goToNextPage()
+                            .goToPage(3)
+                            .goToPreviousPage()
+                            .goToPage(1);
 
         //можно добавить пререквизит с созданием конкретной заявки и потом с ней работать
         logger.info("Шаг 3: подтверждение первой заявки со статусом '{}'", STATUS_PENDING);
@@ -317,7 +237,7 @@ public class ZagsRegistrationTest {
         ApplicationRow rowToReject = adminApplicationPage.getFirstRowWithStatus(STATUS_PENDING);
         String rejectedApplicationNumber = rowToReject.getNumber();
         logger.info("Найдена заявка для отклонения: {}", rejectedApplicationNumber);
-        adminApplicationPage.checkRowStatus(rowToReject, STATUS_REJECTED);
+        adminApplicationPage.checkRowStatus(rowToReject, STATUS_PENDING);
 
         rowToReject.reject();
         logger.info("Заявка {} отклонена, ожидание статуса '{}'", rejectedApplicationNumber, STATUS_REJECTED);

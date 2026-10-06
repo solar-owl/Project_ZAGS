@@ -10,7 +10,7 @@ public class DeathFormPage extends BasePage{
     private final By fieldDeathPlace = By.xpath("//div[contains(., 'Место смерти')]/following-sibling::input");
 
     @Step("Заполнить все поля формы регистрация смерти")
-    public void fill_all_fields_in_death_form(DeathDetails details) {
+    public void fillAllFieldsInDeathForm(DeathDetails details) {
         fillDeathDate(details.getDeathDate());
         fillDeathPlace(details.getDeathPlace());
     }

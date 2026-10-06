@@ -14,7 +14,7 @@ public class ApplicantFormPage extends BasePage{
     private final By fieldRedistrationAddress = By.xpath("//div[contains(., 'Адрес прописки')]/following-sibling::input");
 
     @Step("Заполнить все поля формы заявителя")
-    public void fill_all_fields_in_applicant_form(Applicant applicant) {
+    public void fillAllFieldsInApplicantForm(Applicant applicant) {
         fillLastName(applicant.getLastName());
         fillFirstName(applicant.getFirstName());
         fillMiddleName(applicant.getMiddleName());

@@ -15,7 +15,7 @@ public class MarriageFormPage extends BasePage{
     private final By fieldSpousePassportNumber = By.xpath("//div[contains(., 'Номер паспорта')]/following-sibling::input");
 
     @Step("Заполнить все поля формы регистрация брака")
-    public void fill_all_fields_in_marriage_form(MarriageDetails details) {
+    public void fillAllFieldsInMarriageForm(MarriageDetails details) {
         fillRegistrationDate(details.getRegistrationDate());
         fillNewLastName(details.getNewLastName());
         fillSpouseLastName(details.getSpouseLastName());

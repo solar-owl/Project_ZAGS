@@ -15,7 +15,7 @@ public class CitizenFormPage extends BasePage{
     private final By fieldRegistrationAddress = By.xpath("//div[contains(., 'Адрес прописки')]/following-sibling::input");
 
     @Step("Заполнить все поля формы Данные гражданина")
-    public void fill_all_fields_in_citizen_form(Citizen citizen) {
+    public void fillAllFieldsInCitizenForm(Citizen citizen) {
         fillLastName(citizen.getLastName());
         fillFirstName(citizen.getFirstName());
         fillMiddleName(citizen.getMiddleName());

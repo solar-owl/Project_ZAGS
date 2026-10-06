@@ -19,8 +19,9 @@ public class FormStepPage extends BasePage {
     }
 
     @Step("Проверить, что кнопка 'Далее' активна")
-    public void checkNextButtonEnabled() {
+    public FormStepPage checkNextButtonEnabled() {
         Assert.assertTrue(isNextButtonEnabled(), "Кнопка 'Далее' disabled");
+        return this;
     }
 
     @Step("Проверить, что кнопка 'Завершить' активна")
@@ -32,7 +33,8 @@ public class FormStepPage extends BasePage {
     public void clickCompleteButton() { driver.findElement(completeButton).click(); }
 
     @Step("Проверить, что кнопка 'Завершить' активна")
-    public void checkCompleteButtonEnabled() {
+    public FormStepPage checkCompleteButtonEnabled() {
         Assert.assertTrue(isCompleteButtonEnabled(), "Кнопка 'Завершить' disabled");
+        return this;
     }
 }
