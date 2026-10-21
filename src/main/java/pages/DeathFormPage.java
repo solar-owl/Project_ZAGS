@@ -2,12 +2,11 @@ package pages;
 
 import io.qameta.allure.Step;
 import model.DeathDetails;
-import org.openqa.selenium.By;
+
+import static pages.locators.DeathFormPageLocators.*;
 
 public class DeathFormPage extends BasePage{
 
-    private final By fieldDeathDate = By.xpath("//div[contains(., 'Дата смерти')]/following-sibling::input");
-    private final By fieldDeathPlace = By.xpath("//div[contains(., 'Место смерти')]/following-sibling::input");
 
     @Step("Заполнить все поля формы регистрация смерти")
     public void fillAllFieldsInDeathForm(DeathDetails details) {
@@ -17,12 +16,12 @@ public class DeathFormPage extends BasePage{
 
     @Step("Заполнить поле 'Дата смерти': {deathDate}")
     public void fillDeathDate(String deathDate) {
-        driver.findElement(fieldDeathDate).sendKeys(deathDate);
+        fillUsingLocator(FIELD_DEATH_DATE, deathDate);
     }
 
     @Step("Заполнить поле 'Место смерти': {deathPlace}")
     public void fillDeathPlace(String deathPlace) {
-        driver.findElement(fieldDeathPlace).sendKeys(deathPlace);
+        fillUsingLocator(FIELD_DEATH_PLACE, deathPlace);
     }
 
 }

@@ -74,7 +74,7 @@ public class ZagsRegistrationTest {
     @Story("Подача заявки на регистрацию брака")
     public void marriageRegistrationTest() {
         MarriageApplication data = MarriageRandomizer.random();
-        logger.info("=== НАЧАЛО ТЕСТА: marriageRegistrationTest ===");
+        logger.info("НАЧАЛО ТЕСТА: marriageRegistrationTest");
         logger.info("Авторизация пользователя");
         loginPage.loginAsUser();
 
@@ -105,7 +105,7 @@ public class ZagsRegistrationTest {
         statusPage.checkThanksText("Спасибо за обращение!")
                   .checkStatusText("Статус заявки: На рассмотрении.")
                   .checkRegistrationDate();
-        logger.info("=== ТЕСТ marriageRegistrationTest ЗАВЕРШЁН УСПЕШНО ===");
+        logger.info("ТЕСТ marriageRegistrationTest ЗАВЕРШЁН УСПЕШНО");
     }
 
     @Test(description="этот тест проверяет услугу Регистрация рождения")
@@ -114,7 +114,7 @@ public class ZagsRegistrationTest {
     @Story("Подача заявки на регистрацию рождения")
     public void birthRegistrationTest() {
         BirthApplication data = BirthRandomizer.random();
-        logger.info("=== НАЧАЛО ТЕСТА: birthRegistrationTest ===");
+        logger.info("НАЧАЛО ТЕСТА: birthRegistrationTest");
         logger.info("Авторизация пользователя");
         loginPage.loginAsUser();
 
@@ -145,7 +145,7 @@ public class ZagsRegistrationTest {
         statusPage.checkThanksText("Спасибо за обращение!")
                   .checkStatusText("Статус заявки: На рассмотрении.")
                   .checkRegistrationDate();
-        logger.info("=== ТЕСТ birthRegistrationTest ЗАВЕРШЁН УСПЕШНО ===");
+        logger.info("ТЕСТ birthRegistrationTest ЗАВЕРШЁН УСПЕШНО");
 
     }
 
@@ -155,7 +155,7 @@ public class ZagsRegistrationTest {
     @Story("Подача заявки на регистрацию смерти")
     public void deathRegistrationTest() {
         DeathApplication data = DeathRandomizer.random();
-        logger.info("=== НАЧАЛО ТЕСТА: deathRegistrationTest ===");
+        logger.info("НАЧАЛО ТЕСТА: deathRegistrationTest");
 
         logger.info("Авторизация пользователя");
         loginPage.loginAsUser();
@@ -187,7 +187,7 @@ public class ZagsRegistrationTest {
         statusPage.checkThanksText("Спасибо за обращение!")
                   .checkStatusText("Статус заявки: На рассмотрении.")
                   .checkRegistrationDate();
-        logger.info("=== ТЕСТ deathRegistrationTest ЗАВЕРШЁН УСПЕШНО ===");
+        logger.info("ТЕСТ deathRegistrationTest ЗАВЕРШЁН УСПЕШНО");
     }
 
     @Test(description="этот тест проверяет управление заявками от имени администратора")
@@ -196,7 +196,7 @@ public class ZagsRegistrationTest {
     @Story("Управление заявками")
     public void adminTest() {
         AdminDetails data = AdminRandomizer.random();
-        logger.info("=== НАЧАЛО ТЕСТА: adminTest ===");
+        logger.info("НАЧАЛО ТЕСТА: adminTest");
 
         logger.info("Авторизация администратора");
         loginPage.loginAsAdmin();
@@ -247,6 +247,6 @@ public class ZagsRegistrationTest {
         adminApplicationPage.checkRowStatus(rejectedRow, STATUS_REJECTED);
         logger.info("Статус заявки {} успешно проверен: '{}'", rejectedApplicationNumber, STATUS_REJECTED);
 
-        logger.info("=== ТЕСТ adminTest ЗАВЕРШЁН УСПЕШНО ===");
+        logger.info("ТЕСТ adminTest ЗАВЕРШЁН УСПЕШНО");
     }
 }

@@ -4,9 +4,6 @@ import model.Applicant;
 import model.BirthApplication;
 import model.BirthDetails;
 
-/**
- Сборка BirthApplication.
- **/
 public final class BirthRandomizer {
 
     private BirthRandomizer() {}

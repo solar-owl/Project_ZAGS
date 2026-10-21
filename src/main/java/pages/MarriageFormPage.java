@@ -2,17 +2,12 @@ package pages;
 
 import io.qameta.allure.Step;
 import model.MarriageDetails;
-import org.openqa.selenium.By;
+
+import static pages.locators.MarriageFormPageLocators.*;
+
 
 public class MarriageFormPage extends BasePage{
 
-    private final By fieldRegistrationDate = By.xpath("//div[contains(., 'Дата регистрации')]/following-sibling::input");
-    private final By fieldNewLastName = By.xpath("//div[contains(., 'Новая фамилия')]/following-sibling::input");
-    private final By fieldSpouseLastName = By.xpath("//div[contains(., 'Фамилия супруга')]/following-sibling::input");
-    private final By fieldSpouseFirstName = By.xpath("//div[contains(., 'Имя супруга')]/following-sibling::input");
-    private final By fieldSpouseMiddleName = By.xpath("//div[contains(., 'Отчество супруга')]/following-sibling::input");
-    private final By fieldSpouseBirthDate = By.xpath("//div[contains(., 'Дата рождения')]/following-sibling::input");
-    private final By fieldSpousePassportNumber = By.xpath("//div[contains(., 'Номер паспорта')]/following-sibling::input");
 
     @Step("Заполнить все поля формы регистрация брака")
     public void fillAllFieldsInMarriageForm(MarriageDetails details) {
@@ -27,37 +22,37 @@ public class MarriageFormPage extends BasePage{
 
     @Step("Заполнить поле 'Дата регистрации': {registrationDate}")
     public void fillRegistrationDate(String registrationDate) {
-        driver.findElement(fieldRegistrationDate).sendKeys(registrationDate);
+        fillUsingLocator(FIELD_REGISTRATION_DATE, registrationDate);
     }
 
     @Step("Заполнить поле 'Новая фамилия': {newLastName}")
     public void fillNewLastName(String newLastName) {
-        driver.findElement(fieldNewLastName).sendKeys(newLastName);
+        fillUsingLocator(FIELD_NEW_LAST_NAME, newLastName);
     }
 
     @Step("Заполнить поле 'Фамилия супруга': {spouseLastName}")
     public void fillSpouseLastName(String spouseLastName) {
-        driver.findElement(fieldSpouseLastName).sendKeys(spouseLastName);
+        fillUsingLocator(FIELD_SPOUSE_LAST_NAME, spouseLastName);
     }
 
     @Step("Заполнить поле 'Имя супруга': {spouseFirstName}")
     public void fillSpouseFirstName(String spouseFirstName) {
-        driver.findElement(fieldSpouseFirstName).sendKeys(spouseFirstName);
+        fillUsingLocator(FIELD_SPOUSE_FIRST_NAME, spouseFirstName);
     }
 
     @Step("Заполнить поле 'Отчество супруга': {spouseMiddleName}")
     public void fillSpouseMiddleName(String spouseMiddleName) {
-        driver.findElement(fieldSpouseMiddleName).sendKeys(spouseMiddleName);
+        fillUsingLocator(FIELD_SPOUSE_MIDDLE_NAME, spouseMiddleName);
     }
 
     @Step("Заполнить поле 'Дата рождения супруга': {spouseBirthDate}")
     public void fillSpouseBirthDate(String spouseBirthDate) {
-        driver.findElement(fieldSpouseBirthDate).sendKeys(spouseBirthDate);
+        fillUsingLocator(FIELD_SPOUSE_BIRTH_DATE, spouseBirthDate);
     }
 
     @Step("Заполнить поле 'Номер паспорта супруга': {spousePassportNumber}")
     public void fillSpousePassportNumber(String spousePassportNumber) {
-        driver.findElement(fieldSpousePassportNumber).sendKeys(spousePassportNumber);
+        fillUsingLocator(FIELD_SPOUSE_PASSPORT_NUMBER, spousePassportNumber);
     }
 
 }

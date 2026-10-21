@@ -2,15 +2,10 @@ package pages;
 
 import io.qameta.allure.Step;
 import model.BirthDetails;
-import org.openqa.selenium.By;
+import static pages.locators.BirthFormPageLocators.*;
 
 public class BirthFormPage extends BasePage{
 
-    private final By fieldBirthPlace = By.xpath("//div[contains(., 'Место рождения')]/following-sibling::input");
-    private final By fieldMother = By.xpath("//div[contains(., 'Мать')]/following-sibling::input");
-    private final By fieldFather = By.xpath("//div[contains(., 'Отец')]/following-sibling::input");
-    private final By fieldGrandMother = By.xpath("//div[contains(., 'Бабушка')]/following-sibling::input");
-    private final By fieldGrandFather = By.xpath("//div[contains(., 'Дедушка')]/following-sibling::input");
 
     @Step("Заполнить все поля формы рождения")
     public void fillAllFieldsInBirthForm(BirthDetails details) {
@@ -23,26 +18,26 @@ public class BirthFormPage extends BasePage{
 
     @Step("Заполнить поле 'Место рождения': {birthPlace}")
     public void fillBirthPlace(String birthPlace) {
-        driver.findElement(fieldBirthPlace).sendKeys(birthPlace);
+        fillUsingLocator(FIELD_BIRTH_PLACE, birthPlace);
     }
 
     @Step("Заполнить поле 'Мать': {mother}")
     public void fillMother(String mother) {
-        driver.findElement(fieldMother).sendKeys(mother);
+        fillUsingLocator(FIELD_MOTHER, mother);
     }
 
     @Step("Заполнить поле 'Отец': {father}")
     public void fillFather(String father) {
-        driver.findElement(fieldFather).sendKeys(father);
+        fillUsingLocator(FIELD_FATHER, father);
     }
 
     @Step("Заполнить поле 'Бабушка': {grandMother}")
     public void fillGrandMother(String grandMother) {
-        driver.findElement(fieldGrandMother).sendKeys(grandMother);
+        fillUsingLocator(FIELD_GRAND_MOTHER, grandMother);
     }
 
     @Step("Заполнить поле 'Дедушка': {grandFather}")
     public void fillGrandFather(String grandFather) {
-        driver.findElement(fieldGrandFather).sendKeys(grandFather);
+        fillUsingLocator(FIELD_GRAND_FATHER, grandFather);
     }
 }

@@ -85,7 +85,7 @@ public class ZagsApiTests {
     @Test(description = "Получение списка всех заявок")
     @Story("Получение заявок")
     public void getApplicationsTest() {
-        log.info("=== НАЧАЛО ТЕСТА: getApplicationsTest ===");
+        log.info("НАЧАЛО ТЕСТА: getApplicationsTest");
         log.debug("Base URL: {}", baseURl);
 
         given()
@@ -96,13 +96,13 @@ public class ZagsApiTests {
                 .spec(respSpec)
                 .body(matchesJsonSchemaInClasspath("schemas/applications-response.json"));
 
-        log.info("=== ТЕСТ getApplicationsTest ЗАВЕРШЁН УСПЕШНО ===");
+        log.info("ТЕСТ getApplicationsTest ЗАВЕРШЁН УСПЕШНО");
     }
 
     @Test(description = "Получение заявки по ID")
     @Story("Получение заявки по ID")
     public void getApplStatusWithIdTest() {
-        log.info("=== НАЧАЛО ТЕСТА: getApplStatusWithIdTest ===");
+        log.info("НАЧАЛО ТЕСТА: getApplStatusWithIdTest");
         log.debug("Base URL: {}", baseURl);
 
         given()
@@ -113,13 +113,13 @@ public class ZagsApiTests {
                 .spec(respSpec)
                 .body(matchesJsonSchemaInClasspath("schemas/application-by-id-response.json"));
 
-        log.info("=== ТЕСТ getApplStatusWithIdTest ЗАВЕРШЁН УСПЕШНО ===");
+        log.info("ТЕСТ getApplStatusWithIdTest ЗАВЕРШЁН УСПЕШНО");
     }
 
     @Test(description = "Отправка заявки на регистрацию брака")
     @Story("Подача заявки на регистрацию брака")
     public void sendUserRequestWeddingTest() {
-        log.info("=== НАЧАЛО ТЕСТА: sendUserRequestWeddingTest ===");
+        log.info("НАЧАЛО ТЕСТА: sendUserRequestWeddingTest");
         log.debug("Base URL: {}", baseURl);
 
         ApplicationRequestDto requestBody =
@@ -161,13 +161,13 @@ public class ZagsApiTests {
         Assert.assertEquals(rowApplication.getInt("citizenid"), citizenid);
         Assert.assertEquals(rowApplication.getInt("applicantid"), applicantid);
 
-        log.info("=== ТЕСТ sendUserRequestWeddingTest ЗАВЕРШЁН УСПЕШНО ===");
+        log.info("ТЕСТ sendUserRequestWeddingTest ЗАВЕРШЁН УСПЕШНО");
     }
 
     @Test(description = "Отправка заявки на регистрацию смерти")
     @Story("Подача заявки на регистрацию смерти")
     public void sendUserRequestDeathTest() {
-        log.info("=== НАЧАЛО ТЕСТА: sendUserRequestDeathTest ===");
+        log.info("НАЧАЛО ТЕСТА: sendUserRequestDeathTest");
         log.debug("Base URL: {}", baseURl);
 
         ApplicationRequestDto requestBody =
@@ -209,13 +209,13 @@ public class ZagsApiTests {
         Assert.assertEquals(rowApplication.getInt("citizenid"), citizenid);
         Assert.assertEquals(rowApplication.getInt("applicantid"), applicantid);
 
-        log.info("=== ТЕСТ sendUserRequestDeathTest ЗАВЕРШЁН УСПЕШНО ===");
+        log.info("ТЕСТ sendUserRequestDeathTest ЗАВЕРШЁН УСПЕШНО");
     }
 
     @Test(description = "Отправка заявки на регистрацию рождения")
     @Story("Подача заявки на регистрацию рождения")
     public void sendUserRequestBirthTest() {
-        log.info("=== НАЧАЛО ТЕСТА: sendUserRequestBirthTest ===");
+        log.info("НАЧАЛО ТЕСТА: sendUserRequestBirthTest");
         log.debug("Base URL: {}", baseURl);
 
         ApplicationRequestDto requestBody =
@@ -257,13 +257,13 @@ public class ZagsApiTests {
         Assert.assertEquals(rowApplication.getInt("citizenid"), citizenid);
         Assert.assertEquals(rowApplication.getInt("applicantid"), applicantid);
 
-        log.info("=== ТЕСТ sendUserRequestBirthTest ЗАВЕРШЁН УСПЕШНО ===");
+        log.info("ТЕСТ sendUserRequestBirthTest ЗАВЕРШЁН УСПЕШНО");
     }
 
     @Test(description = "Регистрация администратора")
     @Story("Регистрация администратора")
     public void sendAdminRequestTest() {
-        log.info("=== НАЧАЛО ТЕСТА: sendAdminRequestTest ===");
+        log.info("НАЧАЛО ТЕСТА: sendAdminRequestTest");
         log.debug("Base URL: {}", baseURl);
 
         AdminRequestDto requestBody =
@@ -293,13 +293,13 @@ public class ZagsApiTests {
         Assert.assertEquals(row.str("phonenumber"), requestBody.getPersonalPhoneNumber());
 
 
-        log.info("=== ТЕСТ sendAdminRequestTest ЗАВЕРШЁН УСПЕШНО ===");
+        log.info("ТЕСТ sendAdminRequestTest ЗАВЕРШЁН УСПЕШНО");
     }
 
     @Test(description = "Обработка заявки: смена статуса на approved")
     @Story("Обработка заявки")
     public void requestProcessTest() {
-        log.info("=== НАЧАЛО ТЕСТА: requestProcessTest ===");
+        log.info("НАЧАЛО ТЕСТА: requestProcessTest");
         log.debug("Base URL: {}", baseURl);
 
         List<ApplicationDto> applications = given()
@@ -342,7 +342,7 @@ public class ZagsApiTests {
 
         Assert.assertEquals(row.str("statusofapplication"), "approved");
 
-        log.info("=== ТЕСТ requestProcessTest ЗАВЕРШЁН УСПЕШНО ===");
+        log.info("ТЕСТ requestProcessTest ЗАВЕРШЁН УСПЕШНО");
     }
 
 }

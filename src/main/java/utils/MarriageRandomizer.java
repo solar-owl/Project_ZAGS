@@ -4,9 +4,6 @@ import model.Applicant;
 import model.MarriageApplication;
 import model.MarriageDetails;
 
-/**
- Сборка MarriageApplication из случайных.
- **/
 public final class MarriageRandomizer {
 
     private MarriageRandomizer() {}

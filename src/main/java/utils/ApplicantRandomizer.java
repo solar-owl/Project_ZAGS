@@ -2,9 +2,6 @@ package utils;
 
 import model.Applicant;
 
-/**
-  Генерация Applicant со случайными данными.
- **/
 public final class ApplicantRandomizer {
 
     private ApplicantRandomizer() {}

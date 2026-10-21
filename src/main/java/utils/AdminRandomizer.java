@@ -2,9 +2,6 @@ package utils;
 
 import model.AdminDetails;
 
-/**
- Генерация AdminDetails.
- **/
 public final class AdminRandomizer {
 
     private AdminRandomizer() {}

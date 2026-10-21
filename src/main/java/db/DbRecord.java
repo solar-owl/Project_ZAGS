@@ -2,8 +2,6 @@ package db;
 
 import java.util.HashMap;
 
-import static javax.swing.UIManager.getInt;
-
 public class DbRecord extends HashMap<String, Object> {
     public String str(String column) {
         Object v = get(column);

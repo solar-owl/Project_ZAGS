@@ -4,9 +4,6 @@ import model.Applicant;
 import model.DeathApplication;
 import model.DeathDetails;
 
-/**
-  Сборка DeathApplication.
- **/
 public final class DeathRandomizer {
 
     private DeathRandomizer() {}

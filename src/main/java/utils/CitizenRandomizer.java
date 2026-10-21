@@ -3,9 +3,6 @@ package utils;
 import model.Applicant;
 import model.Citizen;
 
-/**
- Генерация Citizen. Умеет строить Citizen на основе Applicant.
- **/
 public final class CitizenRandomizer {
 
     private CitizenRandomizer() {}

@@ -14,18 +14,6 @@ public class ApplicationStatusPage extends BasePage {
     private final By statusMessage = By.xpath("//span[contains(.,'Статус заявки:')]");
     private final By registrationDateMessage = By.xpath("//span[contains(.,'Дата')]");
 
-    public String getThanksText() {
-        return driver.findElement(thanksMessage).getText();
-    }
-
-    public String getStatusText() {
-        return driver.findElement(statusMessage).getText();
-    }
-
-    public String getRegistrationDateText() {
-        return driver.findElement(registrationDateMessage).getText();
-    }
-
     public String getExpectedRegistrationDate() {
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd yyyy", Locale.ENGLISH);
@@ -34,21 +22,21 @@ public class ApplicationStatusPage extends BasePage {
 
     @Step("Проверить текст благодарности: '{expectedText}'")
     public ApplicationStatusPage checkThanksText(String expectedText) {
-        Assert.assertEquals(getThanksText(), expectedText,
+        Assert.assertEquals(getText(thanksMessage), expectedText,
                 "Неверный текст благодарности");
         return this;
     }
 
     @Step("Проверить статус заявки: '{expectedStatus}'")
     public ApplicationStatusPage checkStatusText(String expectedStatus) {
-        Assert.assertEquals(getStatusText(), expectedStatus,
+        Assert.assertEquals(getText(statusMessage), expectedStatus,
                 "Неверный статус заявки");
         return this;
     }
 
     @Step("Проверить дату регистрации заявки")
     public void checkRegistrationDate() {
-        Assert.assertEquals(getRegistrationDateText(), getExpectedRegistrationDate(),
+        Assert.assertEquals(getText(registrationDateMessage), getExpectedRegistrationDate(),
                 "Неверная дата регистрации");
     }
 }

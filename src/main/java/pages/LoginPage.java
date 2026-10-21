@@ -1,16 +1,10 @@
 package pages;
 
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
+import static utils.LoginCredentials.URL;
+import static pages.locators.LoginPageLocators.*;
 
 public class LoginPage extends BasePage {
-
-    private static final String USERNAME = "user";
-    private static final String PASSWORD = "senlatest";
-    private static final String URL = "https://" + USERNAME + ":" + PASSWORD + "@regoffice.senla.eu";
-
-    private final By loginAsUserButton = By.xpath("//button[contains(., 'Войти как пользователь')]");
-    private final By loginAsAdminButton = By.xpath("//button[contains(., 'Войти как администратор')]");
 
     @Step("Открыть страницу https://regoffice.senla.eu")
     public void open() {
@@ -19,11 +13,11 @@ public class LoginPage extends BasePage {
 
     @Step("Войти как пользователь")
     public void loginAsUser() {
-        driver.findElement(loginAsUserButton).click();
+        clickUsingLocator(LOGIN_AS_USER_BUTTON);
     }
 
     @Step("Войти как администратор")
     public void loginAsAdmin() {
-        driver.findElement(loginAsAdminButton).click();
+        clickUsingLocator(LOGIN_AS_ADMIN_BUTTON);
     }
 }

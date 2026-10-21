@@ -10,17 +10,13 @@ import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import static pages.locators.AdminApplicationPageLocators.*;
 
 public class AdminApplicationPage extends BasePage{
 
-    private final By tableRows = By.xpath("//table/tr");
-    private final By refreshButton = By.xpath("//button[contains(., 'Обновить')]");
-    private final String PAGE_NUMBER_BUTTON_XPATH = "//button[text()='%d']";
-    private final By nextPageButton = By.xpath("//button[@aria-label='Go to next page']");
-    private final By prevPageButton = By.xpath("//button[@aria-label='Go to previous page']");
 
     public List<ApplicationRow> getRows() {
-        List<WebElement> rows = driver.findElements(tableRows);
+        List<WebElement> rows = driver.findElements(TABLE_ROWS);
         return rows.stream()
                 .map(ApplicationRow::new)
                 .collect(Collectors.toList());
@@ -54,19 +50,19 @@ public class AdminApplicationPage extends BasePage{
 
     @Step("Перейти на следующую страницу")
     public AdminApplicationPage goToNextPage() {
-        driver.findElement(nextPageButton).click();
+        driver.findElement(NEXT_PAGE_BUTTON).click();
         return this;
     }
 
     @Step("Перейти на предыдущую страницу")
     public AdminApplicationPage goToPreviousPage() {
-        driver.findElement(prevPageButton).click();
+        clickUsingLocator(PREV_PAGE_BUTTON);
         return this;
     }
 
     @Step("Нажать кнопку 'Обновить'")
     public void refresh() {
-        driver.findElement(refreshButton).click();
+        clickUsingLocator(REFRESH_BUTTON);
     }
 
     @Step("Проверить, что заявка {row} имеет статус '{expectedStatus}'")
