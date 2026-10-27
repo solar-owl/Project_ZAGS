@@ -13,9 +13,9 @@ public final class BirthRequestMapper {
 
         CommonMapper.fillCommon(dto, app.getApplicant(), app.getCitizen());
 
-        dto.setBirth_place(app.getBirthDetails().getBirthPlace());
-        dto.setBirth_mother(app.getBirthDetails().getMother());
-        dto.setBirth_father(app.getBirthDetails().getFather());
+        dto.setBirthPlace(app.getBirthDetails().getBirthPlace());
+        dto.setBirthMother(app.getBirthDetails().getMother());
+        dto.setBirthFather(app.getBirthDetails().getFather());
         dto.setBirthGrandpa(app.getBirthDetails().getGrandMother());
         dto.setBirthGrandma(app.getBirthDetails().getGrandFather());
 

@@ -5,9 +5,7 @@ import io.qameta.allure.Epic;
 import listeners.ScreenshotListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
+import org.testng.annotations.*;
 import pages.*;
 
 @Listeners(ScreenshotListener.class)
@@ -32,9 +30,11 @@ public abstract class BaseTestUI {
     protected AdminDetailsPage adminDetailsPage;
     protected AdminApplicationPage adminApplicationPage;
 
-    @BeforeMethod
-    public void setUp() {
+    @BeforeMethod(alwaysRun = true)
+    @Parameters("browser")
+    public void setUp(@Optional("chrome") String browser) {
         logger.info("Инициализация Page Object'ов");
+        DriverSingleton.getDriver(browser);
         loginPage = new LoginPage();
         stepPage = new FormStepPage();
         applicantFormPage = new ApplicantFormPage();

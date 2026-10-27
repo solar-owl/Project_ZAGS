@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="UI Cross-browser Suite" parallel="tests" thread-count="3">
+    <test name="UI Chrome">
+        <parameter name="browser" value="chrome"/>
+        <packages><package name="ui.*"/></packages>
+    </test>
+    <test name="UI Firefox">
+        <parameter name="browser" value="firefox"/>
+        <packages><package name="ui.*"/></packages>
+    </test>
+    <test name="UI Edge">
+        <parameter name="browser" value="edge"/>
+        <packages><package name="ui.*"/></packages>
+    </test>
+</suite>

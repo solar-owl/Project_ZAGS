@@ -2,7 +2,7 @@ name: Scheduled ZAGS Tests
 
 on:
   schedule:
-    - cron: '0 7 * * *'
+    - cron: '17 3 * * *'
   workflow_dispatch:
 
 jobs:

@@ -1,0 +1,53 @@
+{
+  "chrome": {
+    "default": "latest",
+    "versions": {
+      "latest": {
+        "image": "selenium/standalone-chromium:latest",
+        "port": "4444",
+        "path": "/wd/hub",
+        "shmSize": 2147483648,
+        "env": [
+          "SE_VNC_PASSWORD=selenoid",
+          "SE_SCREEN_WIDTH=1920",
+          "SE_SCREEN_HEIGHT=1080",
+          "SE_SCREEN_DEPTH=24"
+        ]
+      }
+    }
+  },
+  "firefox": {
+    "default": "latest",
+    "versions": {
+      "latest": {
+        "image": "selenium/standalone-firefox:latest",
+        "port": "4444",
+        "path": "/wd/hub",
+        "shmSize": 2147483648,
+        "env": [
+          "SE_VNC_PASSWORD=selenoid",
+          "SE_SCREEN_WIDTH=1920",
+          "SE_SCREEN_HEIGHT=1080",
+          "SE_SCREEN_DEPTH=24"
+        ]
+      }
+    }
+  },
+  "MicrosoftEdge": {
+    "default": "latest",
+    "versions": {
+      "latest": {
+        "image": "selenium/standalone-edge:latest",
+        "port": "4444",
+        "path": "/wd/hub",
+        "shmSize": 2147483648,
+        "env": [
+          "SE_VNC_PASSWORD=selenoid",
+          "SE_SCREEN_WIDTH=1920",
+          "SE_SCREEN_HEIGHT=1080",
+          "SE_SCREEN_DEPTH=24"
+        ]
+      }
+    }
+  }
+}
