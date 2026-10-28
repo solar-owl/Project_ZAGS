@@ -145,3 +145,48 @@ mvn clean test
 ```
 
 По очереди выполняются `testng.xml` (API) и `testng-ui.xml` (UI).
+
+---
+
+## Запуск тестов в Docker
+
+Тесты можно запускать в контейнере, не устанавливая Java и Maven на хост.
+Контейнер подключается к Selenoid через общую Docker-сеть `selenoid`.
+
+### Что в образе
+
+- Базовый образ: `maven:3.9-eclipse-temurin-17` (поддерживает amd64 и arm64)
+- Зависимости Maven скачиваются на этапе сборки
+- При старте контейнера очищается `target` и выполняется `mvn test`
+- Адрес Selenoid задаётся переменной `SELENOID_URL`
+  (по умолчанию `http://selenoid:4444/wd/hub`)
+
+### Предусловия
+
+1. Установлен и запущен Docker Desktop.
+2. Создана сеть (один раз):
+```bash
+   docker network create selenoid
+```
+3. Скачаны образы браузеров и запущен Selenoid
+```bash
+   docker compose up -d
+```
+Проверка: http://localhost:4444/status
+
+### Сборка образа
+
+```bash
+docker build -t zags-tests .
+```
+
+Образ нужно пересобирать после изменения `pom.xml` или тестов.
+
+### Запуск тестов
+
+```bash
+docker run --rm \
+  --network selenoid \
+  -v "$(pwd)/target:/app/target" \
+  zags-tests
+```
